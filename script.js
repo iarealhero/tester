@@ -7,6 +7,8 @@ const maxPriceEl = document.getElementById("max-price");
 const avgPriceEl = document.getElementById("avg-price");
 const resetBtn = document.getElementById("reset");
 
+const API_BASE = "https://eapi.stalcraft.net";
+
 const formatNumber = (value) => new Intl.NumberFormat("ru-RU").format(value);
 
 function setStatus(message, isError = false) {
@@ -92,15 +94,18 @@ function renderLots(lots) {
 }
 
 async function search(query, region, token) {
-  const endpoint = `https://eapi.stalcraft.net/auction/${region}/lots?search=${encodeURIComponent(
-    query
-  )}`;
+  const endpoint = `${API_BASE}/auction/${region}/lots?search=${encodeURIComponent(query)}`;
 
-  const headers = {};
+  const headers = { Accept: "application/json" };
   if (token) headers.Authorization = `Bearer ${token}`;
 
   const response = await fetch(endpoint, { headers });
   if (!response.ok) {
+    if (response.status === 401 || response.status === 403) {
+      throw new Error(
+        "Ошибка авторизации: API Stalcraft требует валидный Bearer-токен или права на выбранный эндпоинт."
+      );
+    }
     throw new Error(`Ошибка API: ${response.status} ${response.statusText}`);
   }
 
