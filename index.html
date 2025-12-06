@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Stalcraft Auction Helper</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="page-header">
+    <div>
+      <h1>Поиск предметов Stalcraft</h1>
+      <p class="subtitle">Актуальные цены аукциона через публичное API</p>
+    </div>
+    <div class="status" id="status">Готово к поиску</div>
+  </header>
+
+  <main>
+    <section class="card">
+      <form id="search-form" class="form-grid">
+        <label class="field">
+          <span>Название предмета</span>
+          <input type="text" id="query" name="query" placeholder="Например, АК-103" required />
+        </label>
+
+        <label class="field">
+          <span>Регион</span>
+          <select id="region" name="region">
+            <option value="ru">RU</option>
+            <option value="eu">EU</option>
+            <option value="sea">SEA</option>
+          </select>
+        </label>
+
+        <label class="field">
+          <span>Токен авторизации (Bearer)</span>
+          <input type="password" id="token" name="token" placeholder="Необязательно, если API открыто" />
+          <small>См. документацию <a href="https://eapi.stalcraft.net" target="_blank" rel="noreferrer">API</a> для получения токена.</small>
+        </label>
+
+        <button type="submit" class="primary">Найти цены</button>
+      </form>
+    </section>
+
+    <section class="card">
+      <div class="results-header">
+        <div>
+          <h2>Результаты поиска</h2>
+          <p class="subtitle">Отображаются доступные лоты с расчётом минимальной, средней и максимальной цены</p>
+        </div>
+        <button id="reset" class="ghost">Очистить</button>
+      </div>
+
+      <div id="summary" class="summary" hidden>
+        <div>
+          <p class="label">Минимальная цена</p>
+          <p id="min-price" class="value">—</p>
+        </div>
+        <div>
+          <p class="label">Средняя цена</p>
+          <p id="avg-price" class="value">—</p>
+        </div>
+        <div>
+          <p class="label">Максимальная цена</p>
+          <p id="max-price" class="value">—</p>
+        </div>
+      </div>
+
+      <div id="results" class="results">
+        <p class="muted">Начните поиск, чтобы увидеть лоты.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="page-footer">
+    <p>
+      Работа с API Stalcraft: <code>https://eapi.stalcraft.net</code>. UI написан на чистом HTML/JS, можно открыть локально без сборки.
+    </p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
